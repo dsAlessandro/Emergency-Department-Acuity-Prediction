@@ -15,7 +15,6 @@ insurance_type                       0
 transport_origin                     0
 pain_location                        0
 mental_status_triage                 0
-chief_complaint_system_x             0
 num_prior_ed_visits_12m              0
 num_prior_admissions_12m             0
 num_active_medications               0
@@ -39,7 +38,7 @@ disposition                          0
 ed_los_hours                         0
 triage_acuity                        0
 chief_complaint_raw                  0
-chief_complaint_system_y             0
+chief_complaint_system               0
 hx_hypertension                      0
 hx_diabetes_type2                    0
 hx_diabetes_type1                    0
