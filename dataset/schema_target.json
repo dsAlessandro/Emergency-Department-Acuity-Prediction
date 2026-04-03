@@ -1,0 +1,590 @@
+{
+  "description": "Target schema for the Triagegeist project. Every dataset (internal and external) must be transformed to conform to this format.",
+  "version": "1.0",
+  "target_column": "triage_acuity",
+  "id_column": "patient_id",
+  "columns": {
+    "patient_id": {
+      "dtype": "string",
+      "role": "id",
+      "required": true,
+      "notes": "Unique patient identifier. For external datasets, generate an ID with a source prefix (e.g. MIMIC_12345)"
+    },
+    "triage_acuity": {
+      "dtype": "integer",
+      "role": "target",
+      "range": [
+        1,
+        5
+      ],
+      "required": true,
+      "notes": "ESI scale: 1=immediate, 2=emergent, 3=urgent/multiple resources, 4=less urgent/one resource, 5=nonurgent/no resources"
+    },
+    "disposition": {
+      "dtype": "categorical",
+      "role": "outcome_only",
+      "values": [
+        "discharged",
+        "admitted",
+        "transferred",
+        "observation",
+        "deceased",
+        "lwbs",
+        "lama"
+      ],
+      "required": false,
+      "notes": "Visit outcome. Do NOT use in training \u2014 causes data leakage."
+    },
+    "ed_los_hours": {
+      "dtype": "float",
+      "role": "outcome_only",
+      "range": [
+        0,
+        48
+      ],
+      "required": false,
+      "notes": "ED length of stay (hours). Do NOT use in training."
+    },
+    "arrival_mode": {
+      "dtype": "categorical",
+      "role": "feature",
+      "values": [
+        "walk-in",
+        "ambulance",
+        "transfer",
+        "police",
+        "helicopter",
+        "other"
+      ],
+      "required": false,
+      "notes": "Mode of arrival to ED"
+    },
+    "arrival_day": {
+      "dtype": "categorical",
+      "role": "feature",
+      "values": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "required": false,
+      "notes": "Day of the week of arrival"
+    },
+    "arrival_season": {
+      "dtype": "categorical",
+      "role": "feature",
+      "values": [
+        "spring",
+        "summer",
+        "autumn",
+        "winter"
+      ],
+      "required": false,
+      "notes": "Season of arrival"
+    },
+    "shift": {
+      "dtype": "categorical",
+      "role": "feature",
+      "values": [
+        "morning",
+        "afternoon",
+        "evening",
+        "night"
+      ],
+      "required": false,
+      "notes": "Shift during which the patient arrived"
+    },
+    "age_group": {
+      "dtype": "categorical",
+      "role": "feature",
+      "values": [
+        "pediatric",
+        "young_adult",
+        "middle_aged",
+        "senior"
+      ],
+      "required": false,
+      "notes": "Age bracket. Can be derived from age if not present."
+    },
+    "sex": {
+      "dtype": "categorical",
+      "role": "feature",
+      "values": [
+        "M",
+        "F",
+        "Other"
+      ],
+      "required": true,
+      "notes": "Patient sex"
+    },
+    "language": {
+      "dtype": "categorical",
+      "role": "feature",
+      "required": false,
+      "notes": "Patient primary language"
+    },
+    "insurance_type": {
+      "dtype": "categorical",
+      "role": "feature",
+      "values": [
+        "public",
+        "private",
+        "self-pay",
+        "military",
+        "other"
+      ],
+      "required": false,
+      "notes": "Insurance type. ~60% public in the Triagegeist dataset."
+    },
+    "transport_origin": {
+      "dtype": "categorical",
+      "role": "feature",
+      "required": false,
+      "notes": "Transport origin (home, workplace, street, etc.)"
+    },
+    "pain_location": {
+      "dtype": "categorical",
+      "role": "feature",
+      "values": [
+        "chest",
+        "abdomen",
+        "head",
+        "limb",
+        "pelvis",
+        "back",
+        "neck",
+        "diffuse",
+        "none"
+      ],
+      "required": false,
+      "notes": "Reported pain location"
+    },
+    "mental_status_triage": {
+      "dtype": "categorical",
+      "role": "feature",
+      "values": [
+        "alert",
+        "confused",
+        "lethargic",
+        "obtunded",
+        "unresponsive"
+      ],
+      "required": false,
+      "notes": "Mental status at triage"
+    },
+    "site_id": {
+      "dtype": "categorical",
+      "role": "feature",
+      "required": false,
+      "notes": "Hospital identifier. For external datasets, use a source-specific code."
+    },
+    "triage_nurse_id": {
+      "dtype": "categorical",
+      "role": "feature",
+      "required": false,
+      "notes": "Triage nurse ID. Useful for inter-rater bias analysis."
+    },
+    "systolic_bp": {
+      "dtype": "float",
+      "role": "feature",
+      "range": [
+        30,
+        260
+      ],
+      "unit": "mmHg",
+      "required": false,
+      "notes": "Systolic blood pressure. ~5% missing in Triagegeist."
+    },
+    "diastolic_bp": {
+      "dtype": "float",
+      "role": "feature",
+      "range": [
+        10,
+        160
+      ],
+      "unit": "mmHg",
+      "required": false,
+      "notes": "Diastolic blood pressure"
+    },
+    "mean_arterial_pressure": {
+      "dtype": "float",
+      "role": "feature",
+      "range": [
+        20,
+        180
+      ],
+      "unit": "mmHg",
+      "required": false,
+      "notes": "MAP = (SBP + 2*DBP) / 3. Can be derived if not present."
+    },
+    "pulse_pressure": {
+      "dtype": "float",
+      "role": "feature",
+      "range": [
+        -60,
+        180
+      ],
+      "unit": "mmHg",
+      "required": false,
+      "notes": "SBP - DBP. Can be derived if not present."
+    },
+    "heart_rate": {
+      "dtype": "float",
+      "role": "feature",
+      "range": [
+        20,
+        250
+      ],
+      "unit": "bpm",
+      "required": false,
+      "notes": "Heart rate"
+    },
+    "respiratory_rate": {
+      "dtype": "float",
+      "role": "feature",
+      "range": [
+        4,
+        60
+      ],
+      "unit": "breaths/min",
+      "required": false,
+      "notes": "Respiratory rate. ~3.8% missing."
+    },
+    "temperature_c": {
+      "dtype": "float",
+      "role": "feature",
+      "range": [
+        32,
+        44
+      ],
+      "unit": "Celsius",
+      "required": false,
+      "notes": "Core body temperature in Celsius. WARNING: NHAMCS uses Fahrenheit \u2014 must convert!"
+    },
+    "spo2": {
+      "dtype": "float",
+      "role": "feature",
+      "range": [
+        50,
+        100
+      ],
+      "unit": "%",
+      "required": false,
+      "notes": "Peripheral oxygen saturation"
+    },
+    "gcs_total": {
+      "dtype": "integer",
+      "role": "feature",
+      "range": [
+        3,
+        15
+      ],
+      "required": false,
+      "notes": "Glasgow Coma Scale total. 15=alert, 3=deep coma."
+    },
+    "pain_score": {
+      "dtype": "integer",
+      "role": "feature",
+      "range": [
+        -1,
+        10
+      ],
+      "required": false,
+      "notes": "Self-reported pain. -1 = not available, 0 = no pain, 10 = worst."
+    },
+    "weight_kg": {
+      "dtype": "float",
+      "role": "feature",
+      "range": [
+        1,
+        300
+      ],
+      "unit": "kg",
+      "required": false,
+      "notes": "Weight in kg"
+    },
+    "height_cm": {
+      "dtype": "float",
+      "role": "feature",
+      "range": [
+        30,
+        230
+      ],
+      "unit": "cm",
+      "required": false,
+      "notes": "Height in cm"
+    },
+    "bmi": {
+      "dtype": "float",
+      "role": "feature",
+      "range": [
+        5,
+        80
+      ],
+      "required": false,
+      "notes": "Body Mass Index. Can be derived from weight and height."
+    },
+    "shock_index": {
+      "dtype": "float",
+      "role": "feature",
+      "range": [
+        0.1,
+        5.0
+      ],
+      "required": false,
+      "notes": "HR / SBP. >0.9 suggests shock state. Can be derived."
+    },
+    "news2_score": {
+      "dtype": "integer",
+      "role": "feature",
+      "range": [
+        0,
+        20
+      ],
+      "required": false,
+      "notes": "National Early Warning Score 2. Composite severity score."
+    },
+    "age": {
+      "dtype": "integer",
+      "role": "feature",
+      "range": [
+        0,
+        120
+      ],
+      "required": true,
+      "notes": "Patient age in years"
+    },
+    "arrival_hour": {
+      "dtype": "integer",
+      "role": "feature",
+      "range": [
+        0,
+        23
+      ],
+      "required": false,
+      "notes": "Arrival hour (0-23)"
+    },
+    "arrival_month": {
+      "dtype": "integer",
+      "role": "feature",
+      "range": [
+        1,
+        12
+      ],
+      "required": false,
+      "notes": "Arrival month (1-12)"
+    },
+    "num_prior_ed_visits_12m": {
+      "dtype": "integer",
+      "role": "feature",
+      "range": [
+        0,
+        50
+      ],
+      "required": false,
+      "notes": "ED visits in the past 12 months"
+    },
+    "num_prior_admissions_12m": {
+      "dtype": "integer",
+      "role": "feature",
+      "range": [
+        0,
+        50
+      ],
+      "required": false,
+      "notes": "Hospital admissions in the past 12 months"
+    },
+    "num_active_medications": {
+      "dtype": "integer",
+      "role": "feature",
+      "range": [
+        0,
+        50
+      ],
+      "required": false,
+      "notes": "Number of active medications"
+    },
+    "num_comorbidities": {
+      "dtype": "integer",
+      "role": "feature",
+      "range": [
+        0,
+        30
+      ],
+      "required": false,
+      "notes": "Number of comorbidities"
+    },
+    "hx_hypertension": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Hypertension"
+    },
+    "hx_diabetes_type2": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Type 2 diabetes"
+    },
+    "hx_diabetes_type1": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Type 1 diabetes"
+    },
+    "hx_asthma": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Asthma"
+    },
+    "hx_copd": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "COPD"
+    },
+    "hx_heart_failure": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Heart failure"
+    },
+    "hx_atrial_fibrillation": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Atrial fibrillation"
+    },
+    "hx_ckd": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Chronic kidney disease"
+    },
+    "hx_liver_disease": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Liver disease"
+    },
+    "hx_malignancy": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Active/prior malignancy"
+    },
+    "hx_obesity": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Obesity (BMI>30)"
+    },
+    "hx_depression": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Depression"
+    },
+    "hx_anxiety": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Anxiety"
+    },
+    "hx_dementia": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Dementia"
+    },
+    "hx_epilepsy": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Epilepsy"
+    },
+    "hx_hypothyroidism": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Hypothyroidism"
+    },
+    "hx_hyperthyroidism": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Hyperthyroidism"
+    },
+    "hx_hiv": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "HIV"
+    },
+    "hx_coagulopathy": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Coagulopathy"
+    },
+    "hx_immunosuppressed": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Immunosuppressed"
+    },
+    "hx_pregnant": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Pregnancy"
+    },
+    "hx_substance_use_disorder": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Substance use disorder"
+    },
+    "hx_coronary_artery_disease": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Coronary artery disease"
+    },
+    "hx_stroke_prior": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Prior stroke"
+    },
+    "hx_peripheral_vascular_disease": {
+      "dtype": "binary",
+      "role": "feature",
+      "required": false,
+      "notes": "Peripheral vascular disease"
+    },
+    "chief_complaint_raw": {
+      "dtype": "text",
+      "role": "text_raw",
+      "required": false,
+      "notes": "Free-text chief complaint. To be processed with NLP."
+    },
+    "data_source": {
+      "dtype": "categorical",
+      "role": "metadata",
+      "values": [
+        "triagegeist",
+        "mimic_iv_ed",
+        "nhamcs",
+        "uci"
+      ],
+      "required": true,
+      "notes": "Indicates which dataset the record comes from. Useful for analysis and debugging."
+    }
+  }
+}
