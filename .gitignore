@@ -1,3 +1,4 @@
 introduction-ita.md
-dataset/
-env/
+dataset/raw/
+dataset/processed/
+dataset/merged/
