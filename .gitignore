@@ -1,1 +1,7 @@
 introduction-ita.md
+*.pem
+dataset/raw/
+dataset/processed/
+dataset/merged/
+*.txt
+*.png
