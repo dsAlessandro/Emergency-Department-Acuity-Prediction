@@ -33,7 +33,7 @@
         "lama"
       ],
       "required": false,
-      "notes": "Visit outcome. Do NOT use in training \u2014 causes data leakage."
+      "notes": "Visit outcome. Do NOT use in training - causes data leakage."
     },
     "ed_los_hours": {
       "dtype": "float",
@@ -263,7 +263,7 @@
       ],
       "unit": "Celsius",
       "required": false,
-      "notes": "Core body temperature in Celsius. WARNING: NHAMCS uses Fahrenheit \u2014 must convert!"
+      "notes": "Core body temperature in Celsius. WARNING: NHAMCS uses Fahrenheit - must convert!"
     },
     "spo2": {
       "dtype": "float",
