@@ -18,3 +18,7 @@ dataset_merge_and_clean.ipynb
 comprehensive_verify.py
 CHANGES_SUMMARY.md
 CACHING_QUICK_START.md
+omr_merging.ipynb
+patients_merging.ipynb
+debug_merge.py
+diagnosis_processing.ipynb
