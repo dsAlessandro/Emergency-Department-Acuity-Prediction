@@ -24,3 +24,4 @@ debug_merge.py
 diagnosis_processing.ipynb
 bert_cache/
 *.npy
+.cache_embeddings/
