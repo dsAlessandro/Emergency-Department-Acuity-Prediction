@@ -22,3 +22,4 @@ omr_merging.ipynb
 patients_merging.ipynb
 debug_merge.py
 diagnosis_processing.ipynb
+bert_cache/
