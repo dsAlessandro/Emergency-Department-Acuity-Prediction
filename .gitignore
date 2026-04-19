@@ -3,3 +3,6 @@ dataset/raw/
 dataset/processed/
 dataset/merged/
 env/
+deterioration_risk_mimic.ipynb
+outputs/deterioration_risk_mimic
+bert_cache_surv/emb_37653e09af3557e81763d9dc1dbdedca.npy
